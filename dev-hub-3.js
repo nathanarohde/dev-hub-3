@@ -54,6 +54,7 @@ function assignAnchorListener(anchor) {
   }
 }
 
+// seperate functions used to allow for link type specific behaviors if necessary, also required for removeEventListener to work properly if browser memory leaks are a concern.
 function callLink(event) {
   linkClick(event);
 }
@@ -108,7 +109,7 @@ function executeGoogleAnalyticsAdaptor(element) {}
 function executeMixPanelAdaptor(element) {}
 function executeOptimizelyAdaptor(element) {}
 
-// Event listeners must be removed to not harm user performance make sure they don't linger
+// If browser memory leaks are a concern.
 function destroyEventListeners(){
   for (var i = 0; i < callLinks.length; i++) {
     callLinks[i].removeEventListener('click', callLink);
