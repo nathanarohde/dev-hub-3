@@ -1,6 +1,4 @@
 <script>
-// https://developers.google.com/analytics/devguides/collection/analyticsjs/sending-hits
-
 // Requirements
 // adaptors should be invoked when submit or non-domain link is clicked
 // link events push href of outgoing link
@@ -72,8 +70,8 @@ function linkClick(event) {
   adaptorCheck(event.target);
   // If concerned about memory leaks
   destroyEventListeners();
-  // can only execute after previous two functions complete what is done depends on whether ES5 or ES6 standard is being used.
-  // getAttribute may not be valid property of event.target, if so this must be passed by parent
+  // can only execute after previous two functions complete what is done depends on whether ES5 or ES6 standard is being used. (callbacks, promises, etc.)
+  // getAttribute may not be valid property of event.target, if so this must be passed another way
   window.location = event.target.getAttribute("href");
 }
 
@@ -95,19 +93,36 @@ function submitClick(event) {
   event.preventDefault();
   adaptorCheck(this);
   destroyEventListeners();
-  // can only execute after previous two functions complete what is done depends on whether ES5 or ES6 standard is being used.
+    // can only execute after previous two functions complete what is done depends on whether ES5 or ES6 standard is being used. (callbacks, promises, etc.)
   form.submit();
 }
 
 // adaptor check may be same or seperate depending on requirements
 function adaptorCheck(element) {
   // Check adaptor requirements in Analytics adaptors object
-  // Execute requirements using element to provide necessary data
+  // google analytics
+  if (window.ga){ executeGoogleAnalyticsAdaptor(element); }
+
+  if ( ? ) { executeMixPanelAdaptor(element); }
+
+  if ( ? ) { executeOptimizelyAdaptor(element); }
 }
 
-function executeGoogleAnalyticsAdaptor(element) {}
-function executeMixPanelAdaptor(element) {}
-function executeOptimizelyAdaptor(element) {}
+// https://developers.google.com/analytics/devguides/collection/analyticsjs/sending-hits
+function executeGoogleAnalyticsAdaptor(element) {
+  // access Analytics get requirements
+  ga('send', {});
+}
+
+function executeMixPanelAdaptor(element) {
+  // access Analytics get requirements
+  // us MixPanel js method or send XMLHttpRequest
+}
+
+function executeOptimizelyAdaptor(element) {
+  // access Analytics get requirements
+  // us Optimizely js method or send XMLHttpRequest
+}
 
 // If browser memory leaks are a concern.
 function destroyEventListeners(){
